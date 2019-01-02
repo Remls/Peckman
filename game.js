@@ -103,11 +103,11 @@ class Ship {
 	}
 
 	moveRight() {
-		this.dir -= this.turningRadius;
+		this.dir += this.turningRadius;
 	}
 
 	moveLeft() {
-		this.dir += this.turningRadius;
+		this.dir -= this.turningRadius;
 	}
 
 	// for opponent
@@ -116,20 +116,20 @@ class Ship {
 		var newY = this.y + (this.v * Math.sin(this.dir));
 		var angle = Math.atan2(this.target.y - this.y, this.target.x - this.x) -
                 	Math.atan2(newY - this.y, newX - this.x);
-    	return angle;
+    		return angle;
 	}
 
 	correctTrajectory() {
 		var angle = this.angleToTarget(this.target);
-    	if (angle > -2 * Math.PI && angle < -Math.PI) {
-        	this.moveLeft();
-    	} else if (angle > -Math.PI && angle < 0) {
-    		this.moveRight();
-    	} else if (angle > 0 && angle < Math.PI) {
-        	this.moveLeft();
-        } else if (angle > Math.PI && angle < 2 * Math.PI) {
-        	this.moveRight();
-        }
+		if (angle > -2 * Math.PI && angle < -Math.PI) {
+			this.moveLeft();
+		} else if (angle > -Math.PI && angle < 0) {
+			this.moveRight();
+		} else if (angle > 0 && angle < Math.PI) {
+			this.moveLeft();
+		} else if (angle > Math.PI && angle < 2 * Math.PI) {
+			this.moveRight();
+		}
 	}
 
 	newTarget(target) {
@@ -280,10 +280,10 @@ function checkKey(e) {
 		player.propel();
 	}
 	if (e.keyCode == '37') {
-		player.moveRight();
+		player.moveLeft();
 	}
 	if (e.keyCode == '39') {
-		player.moveLeft();
+		player.moveRight();
 	}
 }
 
