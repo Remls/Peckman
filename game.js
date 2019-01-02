@@ -7,6 +7,7 @@ window.addEventListener('resize', function(event){
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 });
+window.addEventListener('click', checkClick);
 
 function mark(x, y) {
 	ctx.beginPath();
@@ -251,6 +252,19 @@ function drawStats() {
 		ctx.fillStyle = "#550000";
 		ctx.textAlign = "center";
 		ctx.fillText(timeLeft, canvas.width/2, canvas.height/2);
+	}
+}
+
+var buttonMidpointX = canvas.width * 0.5;
+var buttonMidpointY = canvas.height * 0.8;
+function checkClick(e) {
+	e = e || window.event;
+	if(e.type == "click" && e.y >= buttonMidpointY) {
+		if (e.x < buttonMidpointX) {
+			player.moveLeft();
+		} else {
+			player.moveRight();
+		}
 	}
 }
 
