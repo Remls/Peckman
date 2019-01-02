@@ -148,6 +148,7 @@ var player = new Ship("#4fb0c6", "#eff7f9", null);
 var opponent = new Ship("#17301c", "#e9ecea", food[firstTargetIndex]);
 var timeLeft = 30;
 var paused = false;
+var ended = false;
 
 var drawFunction = function() {};
 var timerFunction = function() {};
@@ -222,8 +223,9 @@ function timer() {
 			result = "You lost (" + player.score + "-" + opponent.score + ")";
 		}
 		ctx.fillText(result, canvas.width/2, canvas.height/2 + 30);
-		ctx.fillText("Press R to restart", canvas.width/2, canvas.height/2 + 50);
+		ctx.fillText("Press R or tap to restart", canvas.width/2, canvas.height/2 + 50);
 		
+		ended = true;
 		haltAnimation("endgame");
 	}
 }
@@ -259,11 +261,15 @@ var buttonMidpointX = canvas.width * 0.5;
 var buttonMidpointY = canvas.height * 0.8;
 function checkClick(e) {
 	e = e || window.event;
-	if(e.type == "click" && e.y >= buttonMidpointY) {
-		if (e.x < buttonMidpointX) {
-			player.moveLeft();
-		} else {
-			player.moveRight();
+	if (ended) {
+		location.reload();
+	} else {
+		if(e.y >= buttonMidpointY) {
+			if (e.x < buttonMidpointX) {
+				player.moveLeft();
+			} else {
+				player.moveRight();
+			}
 		}
 	}
 }
