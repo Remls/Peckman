@@ -42,8 +42,8 @@ class Ship {
 		this.scoreColour = scoreColour;
 
 		this.size = 15;
-		this.x = 200;
-		this.y = 200;
+		this.x = Math.random() * canvas.width;
+		this.y = Math.random() * canvas.height;
 		this.v = this.minSpeed;
 		this.dir = 0;
 		this.turningRadius = 0.3;
@@ -221,7 +221,7 @@ function timer() {
 			result = "You lost (" + player.score + "-" + opponent.score + ")";
 		}
 		ctx.fillText(result, canvas.width/2, canvas.height/2 + 30);
-		ctx.fillText(result, canvas.width/2, canvas.height/2 + 50);
+		ctx.fillText("Press R to restart", canvas.width/2, canvas.height/2 + 50);
 		
 		haltAnimation("endgame");
 	}
