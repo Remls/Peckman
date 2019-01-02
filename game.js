@@ -122,13 +122,13 @@ class Ship {
 	correctTrajectory() {
 		var angle = this.angleToTarget(this.target);
 		if (angle > -2 * Math.PI && angle < -Math.PI) {
-			this.moveLeft();
+			this.moveRight();
 		} else if (angle > -Math.PI && angle < 0) {
-			this.moveRight();
-		} else if (angle > 0 && angle < Math.PI) {
 			this.moveLeft();
-		} else if (angle > Math.PI && angle < 2 * Math.PI) {
+		} else if (angle > 0 && angle < Math.PI) {
 			this.moveRight();
+		} else if (angle > Math.PI && angle < 2 * Math.PI) {
+			this.moveLeft();
 		}
 	}
 
