@@ -9,143 +9,14 @@ window.addEventListener('resize', function(event){
 });
 window.addEventListener('click', checkClick);
 
-function mark(x, y) {
-	ctx.beginPath();
-	ctx.ellipse(x, y, 2, 2, 0, 0, 2*Math.PI);
-	ctx.fillStyle = "#ffffff";
-	ctx.fill();
-	ctx.closePath();
-}
-
-class Star {
-	constructor() {
-		this.size = 5;
-		this.x = Math.random() * canvas.width;
-		this.y = Math.random() * canvas.height;
-	}
-
-	draw() {
-		ctx.beginPath();
-		ctx.ellipse(this.x, this.y, this.size, this.size, 0, 0, 2*Math.PI);
-		ctx.fillStyle = "#fff";
-		ctx.fill();
-		ctx.closePath();
-	}
-}
-
-class Ship {
-	constructor(colour, scoreColour, target) {
-		this.minSpeed = 2;
-		this.maxSpeed = 10;
-		this.acceleration = 0;
-		this.score = 0;
-		this.colour = colour;
-		this.scoreColour = scoreColour;
-
-		this.size = 15;
-		this.x = Math.random() * canvas.width;
-		this.y = Math.random() * canvas.height;
-		this.v = this.minSpeed;
-		this.dir = Math.random() * 2 * Math.PI;
-		this.turningRadius = 0.3;
-		this.target = target;
-	}
-
-	draw() {
-		ctx.beginPath();
-		ctx.ellipse(this.x, this.y, this.size, this.size, this.dir + Math.PI/4, 0, (3/2) * Math.PI);
-		ctx.lineTo(this.x, this.y);
-		ctx.fillStyle = this.colour;
-		ctx.fill();
-		ctx.closePath();
-	}
-
-	drawScore() {
-		ctx.font = "20px Arial";
-		ctx.fillStyle = this.scoreColour;
-		ctx.textAlign = "center";
-		var newPosX = (this.size * 2) * Math.cos(this.dir);
-		var newPosY = (this.size * 2) * Math.sin(this.dir);
-		ctx.fillText(this.score, this.x + newPosX, this.y + newPosY);
-	}
-
-	move() {
-		var newX = this.v * Math.cos(this.dir);
-		var newY = this.v * Math.sin(this.dir);
-		this.x += newX;
-		this.y += newY;
-
-		// Reset if out of canvas
-		if (this.x > canvas.width) {
-			this.x = 0;
-		} else if (this.x < 0) {
-			this.x = canvas.width;
-		}
-		if (this.y > canvas.height) {
-			this.y = 0;
-		} else if (this.y < 0) {
-			this.y = canvas.height;
-		}
-
-		// Reset player velocity
-		this.v += this.acceleration;
-		this.acceleration = -0.1;
-		if (this.v < this.minSpeed) {
-			this.v = this.minSpeed;
-		}
-		if (this.v > this.maxSpeed) {
-			this.v = this.maxSpeed;
-		}
-	}
-
-	propel() {
-		this.acceleration = 3;
-	}
-
-	moveRight() {
-		this.dir += this.turningRadius;
-	}
-
-	moveLeft() {
-		this.dir -= this.turningRadius;
-	}
-
-	// for opponent
-	angleToTarget() {
-		var newX = this.x + (this.v * Math.cos(this.dir));
-		var newY = this.y + (this.v * Math.sin(this.dir));
-		var angle = Math.atan2(this.target.y - this.y, this.target.x - this.x) -
-                	Math.atan2(newY - this.y, newX - this.x);
-    		return angle;
-	}
-
-	correctTrajectory() {
-		var angle = this.angleToTarget(this.target);
-		if (angle > -2 * Math.PI && angle < -Math.PI) {
-			this.moveRight();
-		} else if (angle > -Math.PI && angle < 0) {
-			this.moveLeft();
-		} else if (angle > 0 && angle < Math.PI) {
-			this.moveRight();
-		} else if (angle > Math.PI && angle < 2 * Math.PI) {
-			this.moveLeft();
-		}
-	}
-
-	newTarget(target) {
-		this.target = target;
-	}
-}
-
 var totalFood = 5;
 var food = new Array();
 for (var i = 0; i < totalFood; i++) {
-	food.push(new Star());
+	food.push(new Food());
 }
 
-var firstTargetIndex = Math.floor(Math.random() * 5);
-var player = new Ship("#4fb0c6", "#eff7f9", null);
-var opponent = new Ship("#17301c", "#e9ecea", food[firstTargetIndex]);
+var player = new Player("#4fb0c6", "#eff7f9");
+var opponent = new Opponent("#17301c", "#e9ecea", food[Math.floor(Math.random() * totalFood)]);
 var timeLeft = 30;
 var paused = false;
 var ended = false;
@@ -175,17 +46,17 @@ function draw() {
 			timeLeft += 3;
 			var takenOpponentsTarget = food[i] == opponent.target;
 			food.splice(i, 1);
-			food.push(new Star());
+			food.push(new Food());
 			if (takenOpponentsTarget) {
-				var newTargetIndex = Math.floor(Math.random() * 5);
+				var newTargetIndex = Math.floor(Math.random() * totalFood);
 				opponent.newTarget(food[newTargetIndex]);
 			}
 		}
 		if (collisionOccurred(opponent, food[i])) {
 			opponent.score += 1;
 			food.splice(i, 1);
-			food.push(new Star());
-			var newTargetIndex = Math.floor(Math.random() * 5);
+			food.push(new Food());
+			var newTargetIndex = Math.floor(Math.random() * totalFood);
 			opponent.newTarget(food[newTargetIndex]);
 		}
 	}
