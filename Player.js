@@ -17,9 +17,14 @@ class Player {
 
 	draw() {
 		ctx.beginPath();
-		ctx.ellipse(this.x, this.y, this.size, this.size, this.dir + Math.PI/4, 0, (3/2) * Math.PI);
+		var circleSize = (this.acceleration > 0)
+							? this.size - 2
+							: this.size;
+		ctx.ellipse(this.x, this.y, circleSize, circleSize, this.dir + Math.PI/4, 0, (3/2) * Math.PI);
 		ctx.lineTo(this.x, this.y);
-		ctx.fillStyle = this.colour;
+		ctx.fillStyle = (this.acceleration > 0)
+							? "white"
+							: this.colour;
 		ctx.fill();
 		ctx.closePath();
 	}
