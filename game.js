@@ -212,8 +212,17 @@ function timer() {
 		ctx.textAlign = "center";
 		ctx.fillText("GAME OVER", canvas.width/2, canvas.height/2);
 		ctx.font = "20px Arial";
-		ctx.fillText("Press R to restart", canvas.width/2, canvas.height/2 + 30)
-
+		var result = "";
+		if (player.score == opponent.score) {
+			result = "You tied (" + player.score + " all)";
+		} else if (player.score > opponent.score) {
+			result = "You won (" + player.score + "-" + opponent.score + ")";
+		} else {
+			result = "You lost (" + player.score + "-" + opponent.score + ")";
+		}
+		ctx.fillText(result, canvas.width/2, canvas.height/2 + 30);
+		ctx.fillText(result, canvas.width/2, canvas.height/2 + 50);
+		
 		haltAnimation("endgame");
 	}
 }
