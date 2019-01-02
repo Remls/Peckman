@@ -108,6 +108,9 @@ function opponentMovement() {
 	} else {
 		opponent.correctTrajectory();
 	}
+	if (rand > 0.8) {
+		opponent.propel();
+	}
 }
 
 function collisionOccurred(ship, star) {
@@ -183,6 +186,11 @@ function animate() {
 	drawFunction = setInterval(draw, 10);
 	timerFunction = setInterval(timer, 1000);
 	opponentMovementFunction = setInterval(opponentMovement, 200);
+	// Possible opponent levels based on their calculation speed
+	// Easy: 500
+	// Medium: 300
+	// Hard: 200
+	// Impossible: 50
 	document.onkeydown = checkKey;
 }
 
