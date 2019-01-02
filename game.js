@@ -46,7 +46,7 @@ class Ship {
 		this.x = Math.random() * canvas.width;
 		this.y = Math.random() * canvas.height;
 		this.v = this.minSpeed;
-		this.dir = 0;
+		this.dir = Math.random() * 2 * Math.PI;
 		this.turningRadius = 0.3;
 		this.target = target;
 	}
