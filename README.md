@@ -34,7 +34,7 @@ I will probably never return to this project again (at the time of writing this,
 - Better mobile controls (using buttons instead of invisible touch areas)
 - Complete mobile controls (propel, pause/resume is missing)
 - Difficulty selection at start of game
-  - I had come up with [difficulty settings and names](https://github.com/remls/remls.github.io/blob/main/game.js#L189-L193) for this purpose already.
+  - I had come up with [difficulty settings and names](https://github.com/Remls/Peckman/blob/main/game.js#L189-L193) for this purpose already.
 - Explaining controls in-game
 - Changing background colour of the canvas as the game progresses
   - gradient, based on whether you were winning/losing + by how many points; or ...
